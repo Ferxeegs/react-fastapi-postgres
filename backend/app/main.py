@@ -8,6 +8,7 @@ from pathlib import Path
 from app.core.config import settings
 from app.core.logging_config import root_logger
 from app.core.exceptions import AppException
+from app.core.redis_client import safe_ping_redis, close_redis_client
 from app.api.v1 import api_router
 from app.middleware.logging_middleware import LoggingMiddleware
 
@@ -17,8 +18,14 @@ logger = root_logger
 async def lifespan(app: FastAPI):
     # Startup
     logger.info(f"Starting {settings.PROJECT_NAME} v{settings.PROJECT_VERSION}")
+    if settings.REDIS_ENABLED:
+        if safe_ping_redis():
+            logger.info("Redis connected successfully")
+        else:
+            logger.warning("Redis is enabled but unavailable; running in degraded mode")
     yield
     # Shutdown
+    close_redis_client()
     logger.info(f"Shutting down {settings.PROJECT_NAME}")
 
 app = FastAPI(

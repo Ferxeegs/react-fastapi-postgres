@@ -21,6 +21,7 @@ email-validator==2.1.0
 # Utilities
 python-dateutil==2.8.2
 tzdata
+redis
 
 # Development (optional)
 pytest==7.4.3

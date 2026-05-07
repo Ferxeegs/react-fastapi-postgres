@@ -35,6 +35,17 @@ class Settings(BaseSettings):
     
     # Logging
     LOG_LEVEL: str = Field(default="INFO", description="Logging level")
+
+    # Redis / Cache / Rate Limiting
+    REDIS_URL: str = Field(default="redis://localhost:6379/0", description="Redis connection URL")
+    REDIS_ENABLED: bool = Field(default=True, description="Enable Redis-backed features")
+    REDIS_FAIL_OPEN: bool = Field(
+        default=True,
+        description="If Redis is unavailable, continue requests without cache/rate-limit enforcement",
+    )
+    CACHE_DEFAULT_TTL_SECONDS: int = Field(default=300, description="Default cache TTL in seconds")
+    RATE_LIMIT_LOGIN_MAX_ATTEMPTS: int = Field(default=5, description="Max login attempts in window")
+    RATE_LIMIT_LOGIN_WINDOW_SECONDS: int = Field(default=60, description="Rate limit window in seconds")
     
     # Email (optional, for password reset)
     SMTP_TLS: bool = Field(default=True)

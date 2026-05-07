@@ -24,12 +24,43 @@ services:
     networks:
       - app-bridge
 
-  boilerplate_redis:
-    image: redis:alpine
-    container_name: boilerplate_redis
+  boilerplate_redis_dev:
+    profiles: ["dev"]
+    image: redis:7-alpine
+    container_name: boilerplate_redis_dev
     restart: always
     environment:
       - TZ=Asia/Jakarta
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-bridge
+
+  boilerplate_redis_prod:
+    profiles: ["prod"]
+    image: redis:7-alpine
+    container_name: boilerplate_redis_prod
+    restart: always
+    command:
+      [
+        "redis-server",
+        "/usr/local/etc/redis/redis.conf",
+        "--requirepass",
+        "${REDIS_PASSWORD}"
+      ]
+    environment:
+      - TZ=Asia/Jakarta
+    volumes:
+      - ./redis/redis.prod.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $${REDIS_PASSWORD} ping | grep PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - app-bridge
 
@@ -54,11 +85,13 @@ services:
       - ./backend:/app
     env_file: .env  # Menyuntikkan SEMUA variabel .env (SECRET_KEY, dsb) ke dalam FastAPI
     environment:
-      - REDIS_URL=redis://boilerplate_redis:6379/0
+      - REDIS_URL=redis://boilerplate_redis_dev:6379/0
       - ENV=development
       - TZ=Asia/Jakarta
     depends_on:
       boilerplate_db:
+        condition: service_healthy
+      boilerplate_redis_dev:
         condition: service_healthy
     networks:
       - app-bridge
@@ -74,11 +107,13 @@ services:
       - backend_media_data:/app/uploads
     env_file: .env
     environment:
-      - REDIS_URL=redis://boilerplate_redis:6379/0
+      - REDIS_URL=${REDIS_URL}
       - ENV=production
       - TZ=Asia/Jakarta
     depends_on:
       boilerplate_db:
+        condition: service_healthy
+      boilerplate_redis_prod:
         condition: service_healthy
     networks:
       - app-bridge
@@ -171,3 +206,4 @@ networks:
 volumes:
   postgres_data:
   backend_media_data:
+  redis_data:

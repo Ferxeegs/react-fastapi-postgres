@@ -18,6 +18,7 @@ from app.core.security import (
 )
 from app.core.exceptions import UnauthorizedException, BadRequestException
 from app.core.turnstile import turnstile_is_configured, verify_turnstile_response
+from app.core.rate_limit import enforce_login_rate_limit
 from app.models.auth import User
 from app.schemas.auth import Token, LoginRequest
 from app.schemas.user import UserCreate, UserRead
@@ -47,6 +48,8 @@ def login(
     Supports login with either email or username.
     Sets access token in HttpOnly cookie for security.
     """
+    enforce_login_rate_limit(request)
+
     if turnstile_is_configured():
         if not login_data.turnstile_token or not str(login_data.turnstile_token).strip():
             raise BadRequestException(

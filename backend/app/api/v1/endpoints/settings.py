@@ -14,8 +14,10 @@ from app.schemas.setting import (
 )
 from app.schemas.common import WebResponse
 from app.core.exceptions import NotFoundException, BadRequestException, ForbiddenException
+from app.core.redis_client import get_cached_json, set_cached_json, delete_cache_by_prefix
 
 router = APIRouter()
+SETTINGS_CACHE_PREFIX = "cache:settings:"
 
 
 @router.get("/", response_model=WebResponse[list[SettingRead]])
@@ -25,11 +27,18 @@ def get_all_settings(
     """
     Get all settings.
     """
+    cache_key = f"{SETTINGS_CACHE_PREFIX}all"
+    cached = get_cached_json(cache_key)
+    if cached is not None:
+        return WebResponse(status="success", data=cached)
+
     settings = db.query(Setting).order_by(Setting.group, Setting.name).all()
-    
+    payload = [SettingRead.model_validate(s).model_dump(mode="json") for s in settings]
+    set_cached_json(cache_key, payload)
+
     return WebResponse(
         status="success",
-        data=[SettingRead.model_validate(s) for s in settings]
+        data=payload
     )
 
 
@@ -42,12 +51,18 @@ def get_settings_by_group(
     Get all settings in a group as a dictionary.
     Returns settings as {name: payload} format.
     """
+    cache_key = f"{SETTINGS_CACHE_PREFIX}group:{group_name}"
+    cached = get_cached_json(cache_key)
+    if cached is not None:
+        return WebResponse(status="success", data=cached)
+
     settings = db.query(Setting).filter(Setting.group == group_name).all()
     
     result = {}
     for setting in settings:
         result[setting.name] = setting.payload
-    
+    set_cached_json(cache_key, result)
+
     return WebResponse(
         status="success",
         data=result
@@ -63,6 +78,11 @@ def get_setting(
     """
     Get a single setting by group and name.
     """
+    cache_key = f"{SETTINGS_CACHE_PREFIX}item:{group_name}:{setting_name}"
+    cached = get_cached_json(cache_key)
+    if cached is not None:
+        return WebResponse(status="success", data=cached)
+
     setting = db.query(Setting).filter(
         and_(
             Setting.group == group_name,
@@ -75,9 +95,12 @@ def get_setting(
             f"Setting '{setting_name}' in group '{group_name}' not found"
         )
     
+    data = {"value": setting.payload}
+    set_cached_json(cache_key, data)
+
     return WebResponse(
         status="success",
-        data={"value": setting.payload}
+        data=data
     )
 
 
@@ -109,6 +132,7 @@ def create_setting(
         
         db.commit()
         db.refresh(existing)
+        delete_cache_by_prefix(SETTINGS_CACHE_PREFIX)
         
         return WebResponse(
             status="success",
@@ -127,6 +151,7 @@ def create_setting(
     db.add(setting)
     db.commit()
     db.refresh(setting)
+    delete_cache_by_prefix(SETTINGS_CACHE_PREFIX)
     
     return WebResponse(
         status="success",
@@ -171,6 +196,7 @@ def update_setting(
     
     db.commit()
     db.refresh(setting)
+    delete_cache_by_prefix(SETTINGS_CACHE_PREFIX)
     
     return WebResponse(
         status="success",
@@ -223,6 +249,7 @@ def update_multiple_settings(
             updated_settings.append(new_setting)
     
     db.commit()
+    delete_cache_by_prefix(SETTINGS_CACHE_PREFIX)
     
     # Refresh all settings
     for setting in updated_settings:
@@ -262,6 +289,7 @@ def delete_setting(
     
     db.delete(setting)
     db.commit()
+    delete_cache_by_prefix(SETTINGS_CACHE_PREFIX)
     
     return WebResponse(
         status="success",
