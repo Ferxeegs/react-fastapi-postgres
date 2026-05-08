@@ -42,37 +42,37 @@ export default function CreateUser() {
 
     // Client-side validation
     if (formData.firstname.trim().length < 2) {
-      setError("Nama depan minimal 2 karakter");
+      setError("First name must be at least 2 characters");
       return;
     }
 
     if (formData.lastname.trim().length < 2) {
-      setError("Nama belakang minimal 2 karakter");
+      setError("Last name must be at least 2 characters");
       return;
     }
 
     if (formData.username.trim().length < 3) {
-      setError("Username minimal 3 karakter");
+      setError("Username must be at least 3 characters");
       return;
     }
 
     if (!/^[a-zA-Z0-9_-]{3,}$/.test(formData.username.trim())) {
-      setError("Username harus minimal 3 karakter dan hanya boleh mengandung huruf, angka, underscore, atau dash");
+      setError("Username must be at least 3 characters and only contain letters, numbers, underscores, or dashes");
       return;
     }
 
     if (password.length < 8) {
-      setError("Password minimal 8 karakter");
+      setError("Password must be at least 8 characters");
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Password dan Confirm Password tidak sama");
+      setError("Password and Confirm Password do not match");
       return;
     }
 
     if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      setError("Format email tidak valid");
+      setError("Invalid email format");
       return;
     }
 
@@ -119,7 +119,7 @@ export default function CreateUser() {
       });
 
       if (!createResponse.success) {
-        const errorMessage = createResponse.message || "Gagal membuat user";
+        const errorMessage = createResponse.message || "Failed to create user";
         setError(errorMessage);
         showError(errorMessage);
         setIsLoading(false);
@@ -128,7 +128,7 @@ export default function CreateUser() {
 
       const userId = createResponse.data?.id;
       if (!userId) {
-        const errorMessage = "User berhasil dibuat tapi ID tidak ditemukan";
+        const errorMessage = "User created successfully but ID not found";
         setError(errorMessage);
         showError(errorMessage);
         setIsLoading(false);
@@ -158,10 +158,10 @@ export default function CreateUser() {
       }
 
       // Success - redirect to edit user page
-      success("User berhasil dibuat!");
+      success("User created successfully!");
       navigate(`/users/${userId}/edit`);
     } catch (err: any) {
-      const errorMessage = "Terjadi kesalahan saat membuat user";
+      const errorMessage = "An error occurred while creating user";
       setError(errorMessage);
       showError(errorMessage);
       console.error("Create user error:", err);
@@ -173,8 +173,8 @@ export default function CreateUser() {
   return (
     <>
       <PageMeta
-        title="Tambah Pengguna"
-        description="Tambahkan pengguna baru"
+        title="Create User"
+        description="Add a new user"
       />
       <PageBreadcrumb
         pageTitle={
@@ -183,10 +183,10 @@ export default function CreateUser() {
               to="/users"
               className="text-gray-600 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
             >
-              Pengguna
+              Users
             </Link>
             <span className="text-gray-600">&gt;</span>
-            <span>Tambah Pengguna</span>
+            <span>Create User</span>
           </div>
         }
         hideBreadcrumb={true}
@@ -201,8 +201,8 @@ export default function CreateUser() {
           >
             <AngleLeftIcon className="w-5 h-5" />
           </Link>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white flex-1">
-            Tambah Pengguna
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-800 dark:white flex-1">
+            Create User
           </h1>
         </div>
 
@@ -234,7 +234,7 @@ export default function CreateUser() {
                 }`}
               >
                 <InfoIcon className="w-4 h-4" />
-                Detail
+                Details
               </button>
               <button
                 type="button"
@@ -246,7 +246,7 @@ export default function CreateUser() {
                 }`}
               >
                 <LockIcon className="w-4 h-4" />
-                Role Pengguna
+                User Roles
               </button>
             </div>
 
@@ -287,7 +287,7 @@ export default function CreateUser() {
                   className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700 dark:hover:bg-gray-700"
                 >
                   <AngleLeftIcon className="w-4 h-4" />
-                  Kembali
+                  Back
                 </button>
                 <button
                   type="submit"
@@ -307,7 +307,7 @@ export default function CreateUser() {
                       d="M12 4v16m8-8H4"
                     />
                   </svg>
-                  {isLoading ? "Membuat..." : "Tambah Pengguna"}
+                  {isLoading ? "Creating..." : "Create User"}
                 </button>
               </div>
             </form>

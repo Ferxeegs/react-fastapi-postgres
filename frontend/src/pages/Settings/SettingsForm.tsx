@@ -129,7 +129,7 @@ export default function SettingsForm() {
         }));
       }
     } catch (err: any) {
-      const message = "Gagal mengambil settings. Silakan coba lagi.";
+      const message = "Failed to fetch settings. Please try again.";
       setError(message);
       console.error("Fetch settings error:", err);
       showErrorToast(message);
@@ -156,7 +156,7 @@ export default function SettingsForm() {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
-        showErrorToast("Ukuran file logo maksimal 2MB");
+        showErrorToast("Maximum logo file size is 2MB");
         e.target.value = "";
         return;
       }
@@ -173,7 +173,7 @@ export default function SettingsForm() {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
-        showErrorToast("Ukuran file logo dark maksimal 2MB");
+        showErrorToast("Maximum dark logo file size is 2MB");
         e.target.value = "";
         return;
       }
@@ -203,9 +203,9 @@ export default function SettingsForm() {
           },
         }));
         
-        showSuccessToast("Site logo berhasil dihapus!");
+        showSuccessToast("Site logo deleted successfully!");
       } catch (err: any) {
-        const message = "Gagal menghapus logo. Silakan coba lagi.";
+        const message = "Failed to delete logo. Please try again.";
         setError(message);
         console.error("Delete logo error:", err);
         showErrorToast(message);
@@ -237,9 +237,9 @@ export default function SettingsForm() {
           },
         }));
         
-        showSuccessToast("Site logo dark berhasil dihapus!");
+        showSuccessToast("Site logo dark deleted successfully!");
       } catch (err: any) {
-        const message = "Gagal menghapus logo dark. Silakan coba lagi.";
+        const message = "Failed to delete dark logo. Please try again.";
         setError(message);
         console.error("Delete logo dark error:", err);
         showErrorToast(message);
@@ -258,7 +258,7 @@ export default function SettingsForm() {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
-        showErrorToast("Ukuran file brand logo square maksimal 2MB");
+        showErrorToast("Maximum brand logo square file size is 2MB");
         e.target.value = "";
         return;
       }
@@ -275,7 +275,7 @@ export default function SettingsForm() {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
-        showErrorToast("Ukuran file favicon maksimal 2MB");
+        showErrorToast("Maximum favicon file size is 2MB");
         e.target.value = "";
         return;
       }
@@ -301,9 +301,9 @@ export default function SettingsForm() {
             brand_logo_square: "",
           },
         }));
-        showSuccessToast("Brand logo square berhasil dihapus!");
+        showSuccessToast("Brand logo square deleted successfully!");
       } catch (err: any) {
-        const message = "Gagal menghapus brand logo square. Silakan coba lagi.";
+        const message = "Failed to delete brand logo square. Please try again.";
         setError(message);
         console.error("Delete brand logo square error:", err);
         showErrorToast(message);
@@ -321,7 +321,7 @@ export default function SettingsForm() {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
-        showErrorToast("Ukuran file brand logo square dark maksimal 2MB");
+        showErrorToast("Maximum brand logo square dark file size is 2MB");
         e.target.value = "";
         return;
       }
@@ -347,9 +347,9 @@ export default function SettingsForm() {
             brand_logo_square_dark: "",
           },
         }));
-        showSuccessToast("Brand logo square dark berhasil dihapus!");
+        showSuccessToast("Brand logo square dark deleted successfully!");
       } catch (err: any) {
-        const message = "Gagal menghapus brand logo square dark. Silakan coba lagi.";
+        const message = "Failed to delete brand logo square dark. Please try again.";
         setError(message);
         console.error("Delete brand logo square dark error:", err);
         showErrorToast(message);
@@ -376,9 +376,9 @@ export default function SettingsForm() {
             site_favicon: "",
           },
         }));
-        showSuccessToast("Site favicon berhasil dihapus!");
+        showSuccessToast("Site favicon deleted successfully!");
       } catch (err: any) {
-        const message = "Gagal menghapus favicon. Silakan coba lagi.";
+        const message = "Failed to delete favicon. Please try again.";
         setError(message);
         console.error("Delete favicon error:", err);
         showErrorToast(message);
@@ -582,7 +582,7 @@ export default function SettingsForm() {
       const response = await settingAPI.updateMultiple(settingsToUpdate);
 
       if (response.success) {
-        showSuccessToast("Settings berhasil disimpan!");
+        showSuccessToast("Settings saved successfully!");
         // Clear file inputs
         setLogoFile(null);
         setLogoDarkFile(null);
@@ -592,12 +592,12 @@ export default function SettingsForm() {
         // Refresh settings
         await fetchSettings();
       } else {
-        const message = response.message || "Gagal menyimpan settings";
+        const message = response.message || "Failed to save settings";
         setError(message);
         showErrorToast(message);
       }
     } catch (err: any) {
-      const message = "Terjadi kesalahan. Silakan coba lagi.";
+      const message = "An error occurred. Please try again.";
       setError(message);
       console.error("Save settings error:", err);
       showErrorToast(message);
@@ -750,7 +750,7 @@ export default function SettingsForm() {
                       onClick={handleDeleteLogo}
                       disabled={!canUpdateSettings}
                       className="p-2 sm:p-1.5 bg-red-500 text-white rounded hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
-                      title="Hapus logo"
+                      title="Delete logo"
                     >
                       <TrashBinIcon className="w-4 h-4" />
                     </button>
@@ -765,7 +765,7 @@ export default function SettingsForm() {
                   className="h-11 w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 focus:border-brand-300 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90 dark:border-gray-700 dark:focus:border-brand-800 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Format: JPG, PNG, SVG. Maksimal 2MB
+                  Format: JPG, PNG, SVG. Maximum 2MB
                 </p>
               </div>
             </div>
@@ -785,7 +785,7 @@ export default function SettingsForm() {
                       onClick={handleDeleteLogoDark}
                       disabled={!canUpdateSettings}
                       className="p-1.5 bg-red-500 text-white rounded hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      title="Hapus logo dark"
+                      title="Delete dark logo"
                     >
                       <TrashBinIcon className="w-4 h-4" />
                     </button>
@@ -800,7 +800,7 @@ export default function SettingsForm() {
                   className="h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 focus:border-brand-300 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90 dark:border-gray-700 dark:focus:border-brand-800 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Format: JPG, PNG, SVG. Maksimal 2MB
+                  Format: JPG, PNG, SVG. Maximum 2MB
                 </p>
               </div>
             </div>
@@ -820,7 +820,7 @@ export default function SettingsForm() {
                       onClick={handleDeleteBrandLogoSquare}
                       disabled={!canUpdateSettings}
                       className="p-1.5 bg-red-500 text-white rounded hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      title="Hapus brand logo square"
+                      title="Delete brand logo square"
                     >
                       <TrashBinIcon className="w-4 h-4" />
                     </button>
@@ -835,7 +835,7 @@ export default function SettingsForm() {
                   className="h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 focus:border-brand-300 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90 dark:border-gray-700 dark:focus:border-brand-800 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Format: JPG, PNG, SVG. Maksimal 2MB
+                  Format: JPG, PNG, SVG. Maximum 2MB
                 </p>
               </div>
             </div>
@@ -855,7 +855,7 @@ export default function SettingsForm() {
                       onClick={handleDeleteBrandLogoSquareDark}
                       disabled={!canUpdateSettings}
                       className="p-1.5 bg-red-500 text-white rounded hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      title="Hapus brand logo square dark"
+                      title="Delete brand logo square dark"
                     >
                       <TrashBinIcon className="w-4 h-4" />
                     </button>
@@ -870,7 +870,7 @@ export default function SettingsForm() {
                   className="h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 focus:border-brand-300 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90 dark:border-gray-700 dark:focus:border-brand-800 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Format: JPG, PNG, SVG. Maksimal 2MB
+                  Format: JPG, PNG, SVG. Maximum 2MB
                 </p>
               </div>
             </div>
@@ -890,7 +890,7 @@ export default function SettingsForm() {
                       onClick={handleDeleteFavicon}
                       disabled={!canUpdateSettings}
                       className="p-1.5 bg-red-500 text-white rounded hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                      title="Hapus favicon"
+                      title="Delete favicon"
                     >
                       <TrashBinIcon className="w-4 h-4" />
                     </button>
@@ -904,7 +904,7 @@ export default function SettingsForm() {
                   className="h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 focus:border-brand-300 focus:ring-brand-500/20 dark:bg-gray-900 dark:text-white/90 dark:border-gray-700 dark:focus:border-brand-800 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Format: ICO, PNG. Maksimal 2MB. Ukuran disarankan 32x32 atau 16x16
+                  Format: ICO, PNG. Maximum 2MB. Recommended size 32x32 or 16x16
                 </p>
               </div>
             </div>
@@ -920,7 +920,7 @@ export default function SettingsForm() {
             disabled={isSaving}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg transition px-5 py-3.5 text-sm bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300 disabled:cursor-not-allowed disabled:opacity-50 touch-manipulation"
           >
-            {isSaving ? "Menyimpan..." : "Simpan Settings"}
+            {isSaving ? "Saving..." : "Save Settings"}
           </button>
         </div>
       )}

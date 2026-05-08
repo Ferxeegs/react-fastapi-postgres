@@ -28,7 +28,7 @@ export default function UserDropdown() {
       navigate(redirectUrl || "/users");
     } catch (error: any) {
       console.error("Error stopping impersonate:", error);
-      alert(error.message || "Gagal keluar dari impersonate");
+      alert(error.message || "Failed to stop impersonating");
     } finally {
       setIsStopping(false);
     }
@@ -124,7 +124,7 @@ export default function UserDropdown() {
               </span>
             </div>
             <p className="text-xs text-yellow-700 dark:text-yellow-400 mb-2">
-              Anda sedang masuk sebagai <strong>{displayName}</strong>
+              You are currently logged in as <strong>{displayName}</strong>
             </p>
             <p className="text-xs text-yellow-600 dark:text-yellow-500">
               Admin: {impersonatedBy.username}
@@ -134,7 +134,7 @@ export default function UserDropdown() {
               disabled={isStopping}
               className="w-full mt-2 px-3 py-1.5 text-xs font-medium text-white bg-yellow-600 rounded-lg hover:bg-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isStopping ? "Keluar..." : "Keluar dari Impersonate"}
+              {isStopping ? "Stopping..." : "Stop Impersonating"}
             </button>
           </div>
         )}
@@ -196,7 +196,7 @@ export default function UserDropdown() {
                   fill=""
                 />
               </svg>
-              Pengaturan Profil
+              Profile Settings
             </DropdownItem>
             )}
           </li>
@@ -245,7 +245,7 @@ export default function UserDropdown() {
               fill=""
             />
           </svg>
-          Keluar
+          Logout
         </button>
       </Dropdown>
     </div>

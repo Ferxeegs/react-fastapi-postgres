@@ -53,10 +53,10 @@ export default function UserInfoCard({ user, onUpdate }: UserInfoCardProps) {
         if (onUpdate) onUpdate();
         closeModal();
       } else {
-        setError(response.message || "Gagal mengupdate profile");
+        setError(response.message || "Failed to update profile");
       }
     } catch (err: any) {
-      setError(err.message || "Terjadi kesalahan saat mengupdate profile");
+      setError(err.message || "An error occurred while updating profile");
       console.error("Update profile error:", err);
     } finally {
       setIsLoading(false);
@@ -78,7 +78,7 @@ export default function UserInfoCard({ user, onUpdate }: UserInfoCardProps) {
   const formatDate = (dateString: string | null | undefined) => {
     if (!dateString) return "-";
     const date = new Date(dateString);
-    return date.toLocaleDateString("id-ID", {
+    return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -264,7 +264,7 @@ export default function UserInfoCard({ user, onUpdate }: UserInfoCardProps) {
                       className="bg-gray-100 dark:bg-gray-800"
                     />
                     <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                      Username tidak dapat diubah
+                      Username cannot be changed
                     </p>
                   </div>
 

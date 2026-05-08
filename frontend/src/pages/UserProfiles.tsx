@@ -45,7 +45,7 @@ export default function UserProfiles() {
         <PageBreadcrumb pageTitle="Profile" />
         <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
           <div className="text-center py-12">
-            <p className="text-gray-500 dark:text-gray-400">User tidak ditemukan</p>
+            <p className="text-gray-500 dark:text-gray-400">User not found</p>
           </div>
         </div>
       </>

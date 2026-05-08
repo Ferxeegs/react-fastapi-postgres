@@ -83,10 +83,10 @@ export default function EditRole() {
         // console.log("Setting selected permission IDs:", permissionIds);
         setSelectedPermissionIds(permissionIds);
       } else {
-        setError(response.message || "Gagal mengambil data role");
+        setError(response.message || "Failed to fetch role data");
       }
     } catch (err: any) {
-      setError("Terjadi kesalahan saat mengambil data role");
+      setError("An error occurred while fetching role data");
       console.error("Fetch role error:", err);
     } finally {
       setIsFetching(false);
@@ -103,11 +103,11 @@ export default function EditRole() {
         setAllPermissions(permissions);
       } else {
         console.error("Failed to fetch permissions:", response.message || response.error);
-        setError(response.message || "Gagal mengambil daftar permissions");
+        setError(response.message || "Failed to fetch permissions list");
       }
     } catch (err: any) {
       console.error("Fetch permissions error:", err);
-      setError("Terjadi kesalahan saat mengambil daftar permissions");
+      setError("An error occurred while fetching permissions list");
     }
   };
 
@@ -175,7 +175,7 @@ export default function EditRole() {
       );
 
       if (!updatePermissionsResponse.success) {
-        const errorMessage = updatePermissionsResponse.message || "Gagal mengupdate permissions";
+        const errorMessage = updatePermissionsResponse.message || "Failed to update permissions";
         setError(errorMessage);
         showError(errorMessage);
         setIsLoading(false);
@@ -183,10 +183,10 @@ export default function EditRole() {
       }
 
       // Success - redirect back to roles list
-      success("Role permissions berhasil diupdate!");
+      success("Role permissions updated successfully!");
       navigate("/roles");
     } catch (err: any) {
-      const errorMessage = "Terjadi kesalahan. Silakan coba lagi.";
+      const errorMessage = "An error occurred. Please try again.";
       setError(errorMessage);
       showError(errorMessage);
       console.error("Update role error:", err);
@@ -390,7 +390,7 @@ export default function EditRole() {
           </div>
         </div>
         <div className="flex items-center justify-center py-12">
-          <div className="text-gray-500 dark:text-gray-400">Memuat data role...</div>
+          <div className="text-gray-500 dark:text-gray-400">Loading role data...</div>
         </div>
       </>
     );
@@ -414,7 +414,7 @@ export default function EditRole() {
           </div>
         </div>
         <div className="flex items-center justify-center py-12">
-          <div className="text-gray-500 dark:text-gray-400">Role tidak ditemukan</div>
+          <div className="text-gray-500 dark:text-gray-400">Role not found</div>
         </div>
       </>
     );
@@ -651,7 +651,7 @@ export default function EditRole() {
 
             {modelsForTab.length === 0 && (
               <div className="py-12 text-center text-gray-500 dark:text-gray-400">
-                Tidak ada permissions di kategori ini
+                No permissions in this category
               </div>
             )}
 

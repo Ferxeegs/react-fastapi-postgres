@@ -36,21 +36,21 @@ type NavGroup = {
 
 const sidebarGroups: NavGroup[] = [
   {
-    title: "Menu Utama",
+    title: "Main Menu",
     items: [
       {
         icon: <GridIcon />,
-        name: "Beranda",
+        name: "Dashboard",
         path: "/",
       },
     ],
   },
   {
-    title: "Sistem & Keamanan",
+    title: "System & Security",
     items: [
       {
         icon: <LockIcon />,
-        name: "Akses",
+        name: "Access",
         subItems: [
           {
             name: "Users",

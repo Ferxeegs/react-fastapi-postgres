@@ -42,10 +42,10 @@ export default function EditUserForm() {
           email: response.data.email || "",
         });
       } else {
-        setError(response.message || "Gagal mengambil data user");
+        setError(response.message || "Failed to fetch user data");
       }
     } catch (err: any) {
-      setError("Terjadi kesalahan saat mengambil data user");
+      setError("An error occurred while fetching user data");
       console.error("Fetch user error:", err);
     } finally {
       setIsFetching(false);
@@ -70,17 +70,17 @@ export default function EditUserForm() {
 
     // Client-side validation
     if (formData.firstname.trim().length < 2) {
-      setError("Nama depan minimal 2 karakter");
+      setError("First name must be at least 2 characters");
       return;
     }
 
     if (formData.lastname.trim().length < 2) {
-      setError("Nama belakang minimal 2 karakter");
+      setError("Last name must be at least 2 characters");
       return;
     }
 
     if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      setError("Format email tidak valid");
+      setError("Invalid email format");
       return;
     }
 
@@ -99,10 +99,10 @@ export default function EditUserForm() {
         // Redirect back to users list
         navigate("/users");
       } else {
-        setError(response.message || "Gagal mengupdate user");
+        setError(response.message || "Failed to update user");
       }
     } catch (err: any) {
-      setError("Terjadi kesalahan. Silakan coba lagi.");
+      setError("An error occurred. Please try again.");
       console.error("Update user error:", err);
     } finally {
       setIsLoading(false);
@@ -112,7 +112,7 @@ export default function EditUserForm() {
   if (isFetching) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="text-gray-500 dark:text-gray-400">Memuat data user...</div>
+        <div className="text-gray-500 dark:text-gray-400">Loading user data...</div>
       </div>
     );
   }

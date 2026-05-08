@@ -19,21 +19,21 @@ const searchCommands: SearchCommand[] = [
   {
     name: "Dashboard",
     path: "/",
-    keywords: ["dashboard", "home", "beranda"],
-    category: "Navigasi",
+    keywords: ["dashboard", "home"],
+    category: "Navigation",
   },
   
   {
-    name: "Pengguna",
+    name: "Users",
     path: "/users",
-    keywords: ["users", "user", "pengguna", "akun"],
-    category: "Akses",
+    keywords: ["users", "user", "account"],
+    category: "Access",
   },
   {
-    name: "Peran",
+    name: "Roles",
     path: "/roles",
-    keywords: ["roles", "role", "peran", "hak akses"],
-    category: "Akses",
+    keywords: ["roles", "role", "permissions"],
+    category: "Access",
   },
   // {
   //   name: "Calendar",
@@ -42,16 +42,16 @@ const searchCommands: SearchCommand[] = [
   //   category: "Navigasi",
   // },
   {
-    name: "Pengaturan",
+    name: "Settings",
     path: "/settings",
-    keywords: ["settings", "setting", "pengaturan", "konfigurasi"],
-    category: "Sistem",
+    keywords: ["settings", "setting", "configuration"],
+    category: "System",
   },
   {
-    name: "Profil",
+    name: "Profile",
     path: "/profile",
-    keywords: ["profile", "profil", "account", "akun"],
-    category: "Navigasi",
+    keywords: ["profile", "account"],
+    category: "Navigation",
   },
 ];
 
@@ -250,7 +250,7 @@ const AppHeader: React.FC = () => {
               </span>
               <div className="min-w-0 flex-1">
                 <p className="text-xs font-semibold text-amber-900 dark:text-amber-100 sm:text-sm">
-                  Mode impersonate
+                  Impersonate mode
                 </p>
                 <p className="truncate text-[11px] leading-snug text-amber-800/90 dark:text-amber-200/90 sm:text-xs">
                   <span className="text-amber-700/80 dark:text-amber-300/80">
@@ -266,7 +266,7 @@ const AppHeader: React.FC = () => {
               disabled={isStoppingImpersonate}
               className="shrink-0 rounded-lg bg-amber-600 px-3 py-2 text-xs font-medium text-white shadow-sm transition-colors hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-60 sm:py-1.5 sm:text-sm touch-manipulation w-full sm:w-auto"
             >
-              {isStoppingImpersonate ? "Memproses…" : "Keluar dari impersonate"}
+              {isStoppingImpersonate ? "Processing…" : "Stop impersonating"}
             </button>
           </div>
         </div>
@@ -370,7 +370,7 @@ const AppHeader: React.FC = () => {
                   <input
                     ref={inputRef}
                     type="text"
-                    placeholder="Cari atau ketik perintah..."
+                    placeholder="Search or type a command..."
                     value={searchQuery}
                     onChange={handleSearchChange}
                     onKeyDown={handleInputKeyDown}
@@ -442,7 +442,7 @@ const AppHeader: React.FC = () => {
                     className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg z-50 p-4"
                   >
                     <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
-                      Tidak ada hasil untuk &quot;{searchQuery}&quot;
+                      No results for &quot;{searchQuery}&quot;
                     </p>
                   </div>
                 )}

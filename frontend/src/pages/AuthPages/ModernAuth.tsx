@@ -27,7 +27,7 @@ export default function ModernAuth() {
       <FaviconUpdater />
       <PageMeta
         title={isSignUp ? "Sign Up" : "Sign In"}
-        description={isSignUp ? "Daftar ke sistem" : "Masuk ke sistem"}
+        description={isSignUp ? "Sign up to the system" : "Sign in to the system"}
       />
 
       <div className="fixed z-50 bottom-6 right-6">

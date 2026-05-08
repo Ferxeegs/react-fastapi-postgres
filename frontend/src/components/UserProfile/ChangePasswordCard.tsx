@@ -54,32 +54,32 @@ export default function ChangePasswordCard({ onUpdate }: ChangePasswordCardProps
 
     // Validasi
     if (!formData.current_password) {
-      setError("Password lama wajib diisi");
+      setError("Old password is required");
       return;
     }
 
     if (!formData.new_password) {
-      setError("Password baru wajib diisi");
+      setError("New password is required");
       return;
     }
 
     if (formData.new_password.length < 8) {
-      setError("Password baru minimal 8 karakter");
+      setError("New password must be at least 8 characters");
       return;
     }
 
     if (!formData.confirm_password) {
-      setError("Konfirmasi password wajib diisi");
+      setError("Confirm password is required");
       return;
     }
 
     if (formData.new_password !== formData.confirm_password) {
-      setError("Password baru dan konfirmasi password tidak sama");
+      setError("New password and confirm password do not match");
       return;
     }
 
     if (formData.current_password === formData.new_password) {
-      setError("Password baru harus berbeda dengan password lama");
+      setError("New password must be different from the old password");
       return;
     }
 
@@ -109,10 +109,10 @@ export default function ChangePasswordCard({ onUpdate }: ChangePasswordCardProps
           setSuccess(false);
         }, 2000);
       } else {
-        setError(response.message || "Gagal mengubah password");
+        setError(response.message || "Failed to change password");
       }
     } catch (err: any) {
-      setError(err.message || "Terjadi kesalahan saat mengubah password");
+      setError(err.message || "An error occurred while changing password");
       console.error("Change password error:", err);
     } finally {
       setIsLoading(false);
@@ -128,7 +128,7 @@ export default function ChangePasswordCard({ onUpdate }: ChangePasswordCardProps
               Password
             </h4>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Ubah password Anda untuk menjaga keamanan akun
+              Change your password to keep your account secure
             </p>
           </div>
 
@@ -152,7 +152,7 @@ export default function ChangePasswordCard({ onUpdate }: ChangePasswordCardProps
                 fill=""
               />
             </svg>
-            Ubah Password
+            Change Password
           </button>
           )}
         </div>
@@ -162,10 +162,10 @@ export default function ChangePasswordCard({ onUpdate }: ChangePasswordCardProps
         <div className="custom-scrollbar relative w-full max-w-[500px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
           <div className="px-2 pr-14">
             <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-              Ubah Password
+              Change Password
             </h4>
             <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
-              Masukkan password lama dan password baru Anda.
+              Enter your old and new password.
             </p>
           </div>
           <form
@@ -187,14 +187,14 @@ export default function ChangePasswordCard({ onUpdate }: ChangePasswordCardProps
               {success && (
                 <div className="mb-4 rounded-lg border border-green-200 bg-green-50 p-4 dark:border-green-800 dark:bg-green-900/20">
                   <p className="text-sm font-medium text-green-800 dark:text-green-400">
-                    Password berhasil diubah!
+                    Password changed successfully!
                   </p>
                 </div>
               )}
 
               <div className="space-y-5">
                 <div>
-                  <Label htmlFor="current_password">Password Lama</Label>
+                  <Label htmlFor="current_password">Old Password</Label>
                   <div className="relative">
                     <Input
                       type={showCurrentPassword ? "text" : "password"}
@@ -208,7 +208,7 @@ export default function ChangePasswordCard({ onUpdate }: ChangePasswordCardProps
                       type="button"
                       onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                      aria-label={showCurrentPassword ? "Sembunyikan password" : "Tampilkan password"}
+                      aria-label={showCurrentPassword ? "Hide password" : "Show password"}
                     >
                       {showCurrentPassword ? (
                         <EyeCloseIcon className="w-5 h-5" />
@@ -220,7 +220,7 @@ export default function ChangePasswordCard({ onUpdate }: ChangePasswordCardProps
                 </div>
 
                 <div>
-                  <Label htmlFor="new_password">Password Baru</Label>
+                  <Label htmlFor="new_password">New Password</Label>
                   <div className="relative">
                     <Input
                       type={showNewPassword ? "text" : "password"}
@@ -234,7 +234,7 @@ export default function ChangePasswordCard({ onUpdate }: ChangePasswordCardProps
                       type="button"
                       onClick={() => setShowNewPassword(!showNewPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                      aria-label={showNewPassword ? "Sembunyikan password" : "Tampilkan password"}
+                      aria-label={showNewPassword ? "Hide password" : "Show password"}
                     >
                       {showNewPassword ? (
                         <EyeCloseIcon className="w-5 h-5" />
@@ -244,12 +244,12 @@ export default function ChangePasswordCard({ onUpdate }: ChangePasswordCardProps
                     </button>
                   </div>
                   <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    Minimal 8 karakter
+                    Minimum 8 characters
                   </p>
                 </div>
 
                 <div>
-                  <Label htmlFor="confirm_password">Konfirmasi Password Baru</Label>
+                  <Label htmlFor="confirm_password">Confirm New Password</Label>
                   <div className="relative">
                     <Input
                       type={showConfirmPassword ? "text" : "password"}
@@ -263,7 +263,7 @@ export default function ChangePasswordCard({ onUpdate }: ChangePasswordCardProps
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                      aria-label={showConfirmPassword ? "Sembunyikan password" : "Tampilkan password"}
+                      aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                     >
                       {showConfirmPassword ? (
                         <EyeCloseIcon className="w-5 h-5" />
@@ -280,7 +280,7 @@ export default function ChangePasswordCard({ onUpdate }: ChangePasswordCardProps
                 Close
               </Button>
               <Button size="sm" onClick={handleSave} disabled={isLoading || success}>
-                {isLoading ? "Mengubah..." : "Ubah Password"}
+                {isLoading ? "Changing..." : "Change Password"}
               </Button>
             </div>
           </form>

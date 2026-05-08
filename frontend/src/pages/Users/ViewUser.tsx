@@ -99,10 +99,10 @@ export default function ViewUser() {
           setProfilePictureUrl(null);
         }
       } else {
-        setError(response.message || "Gagal mengambil data user");
+        setError(response.message || "Failed to fetch user data");
       }
     } catch (err: any) {
-      setError("Terjadi kesalahan. Silakan coba lagi.");
+      setError("An error occurred. Please try again.");
       console.error("Fetch user error:", err);
     } finally {
       setIsLoading(false);
@@ -111,9 +111,9 @@ export default function ViewUser() {
 
   const formatDate = (date: string | null) => {
     if (!date) return "-";
-    return new Date(date).toLocaleDateString("id-ID", {
+    return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
-      month: "long",
+      month: "short",
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit",
@@ -158,12 +158,12 @@ export default function ViewUser() {
         <PageMeta title="View User" description="View user details and profile information" />
         <ComponentCard title="Error">
           <div className="p-5 text-center">
-            <p className="text-red-600 dark:text-red-400">{error || "User tidak ditemukan"}</p>
+            <p className="text-red-600 dark:text-red-400">{error || "User not found"}</p>
             <button
               onClick={() => navigate("/users")}
               className="mt-4 px-4 py-2 text-sm font-medium text-white bg-brand-500 rounded-lg hover:bg-brand-600"
             >
-              Kembali ke Daftar User
+              Back to Users List
             </button>
           </div>
         </ComponentCard>

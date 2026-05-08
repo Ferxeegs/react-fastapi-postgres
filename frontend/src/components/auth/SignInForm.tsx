@@ -44,7 +44,7 @@ function TurnstilePlaceholder() {
       className="flex h-[65px] w-[300px] max-w-full items-center justify-center rounded-lg border border-dashed border-gray-300 bg-white/60 text-xs text-gray-500 dark:border-slate-600 dark:bg-slate-800/40 dark:text-gray-400"
       aria-hidden
     >
-      Memuat verifikasi…
+      Loading verification…
     </div>
   );
 }
@@ -150,35 +150,35 @@ export default function SignInForm() {
     setError(null);
     setIsLoading(true);
 
-    // Validasi form
+    // Form validation
     if (!formData.email.trim()) {
-      setError("Email harus diisi");
+      setError("Email is required");
       setIsLoading(false);
       return;
     }
 
     if (!formData.password) {
-      setError("Password harus diisi");
+      setError("Password is required");
       setIsLoading(false);
       return;
     }
 
-    // Validasi format email
+    // Email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email.trim())) {
-      setError("Format email tidak valid");
+      setError("Invalid email format");
       setIsLoading(false);
       return;
     }
 
     if (turnstileSiteKey) {
       if (!turnstileScriptReady) {
-        setError("Verifikasi keamanan masih dimuat. Tunggu sebentar lalu coba lagi.");
+        setError("Security verification is still loading. Please wait and try again.");
         setIsLoading(false);
         return;
       }
       if (!turnstileToken?.trim()) {
-        setError("Selesaikan verifikasi keamanan di bawah ini terlebih dahulu.");
+        setError("Please complete the security verification below first.");
         setIsLoading(false);
         return;
       }
@@ -219,7 +219,7 @@ export default function SignInForm() {
         // Gunakan window.location.href untuk force redirect
         window.location.href = from;
       } else {
-        const errorMsg = response.message || (response as any).message || response.error || "Login gagal. Silakan coba lagi.";
+        const errorMsg = response.message || (response as any).message || response.error || "Login failed. Please try again.";
         console.error('Login failed:', errorMsg);
         setError(errorMsg);
         turnstileRef.current?.reset();
@@ -228,7 +228,7 @@ export default function SignInForm() {
       }
     } catch (err: any) {
       console.error("Login error:", err);
-      setError(err.message || err.error || "Terjadi kesalahan. Silakan coba lagi.");
+      setError(err.message || err.error || "An error occurred. Please try again.");
       turnstileRef.current?.reset();
       setTurnstileToken(null);
       setIsLoading(false);
@@ -253,14 +253,14 @@ export default function SignInForm() {
                   {siteName}
                 </span>
               ) : (
-                <span className="mt-1 text-xs text-gray-400 dark:text-gray-500">Nama aplikasi belum diatur</span>
+                <span className="mt-1 text-xs text-gray-400 dark:text-gray-500">Application name not set</span>
               )}
               {siteTagline ? (
                 <span className="text-[11px] text-gray-500 dark:text-gray-400">
                   {siteTagline}
                 </span>
               ) : (
-                <span className="text-[11px] text-gray-400 dark:text-gray-500">Tagline belum diatur</span>
+                <span className="text-[11px] text-gray-400 dark:text-gray-500">Tagline not set</span>
               )}
             </>
           )}
@@ -411,7 +411,7 @@ export default function SignInForm() {
                             theme: theme,
                             size: "normal",
                             action: "login",
-                            language: "id",
+                            language: "en",
                           }}
                         />
                       </Suspense>

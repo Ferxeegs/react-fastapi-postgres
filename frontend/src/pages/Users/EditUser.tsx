@@ -137,10 +137,10 @@ export default function EditUser() {
           setProfileImageUrl(null);
         }
       } else {
-        setError(response.message || "Gagal mengambil data user");
+        setError(response.message || "Failed to fetch user data");
       }
     } catch (err: any) {
-      setError("Terjadi kesalahan saat mengambil data user");
+      setError("An error occurred while fetching user data");
       console.error("Fetch user error:", err);
     } finally {
       setIsFetching(false);
@@ -214,7 +214,7 @@ export default function EditUser() {
       // Redirect to dashboard or home after impersonating
       navigate("/");
     } catch (err: any) {
-      setError(err.message || "Terjadi kesalahan saat melakukan impersonate");
+      setError(err.message || "An error occurred while impersonating");
       console.error("Impersonate user error:", err);
     } finally {
       setIsImpersonating(false);
@@ -224,14 +224,14 @@ export default function EditUser() {
   const handleResetPassword = async () => {
     if (!id) return;
 
-    // Validasi
+    // Validation
     if (!resetPasswordData.password || resetPasswordData.password.length < 8) {
-      setResetPasswordError("Password minimal 8 karakter");
+      setResetPasswordError("Password must be at least 8 characters");
       return;
     }
 
     if (resetPasswordData.password !== resetPasswordData.confirm_password) {
-      setResetPasswordError("Password dan konfirmasi password tidak cocok");
+      setResetPasswordError("Password and confirm password do not match");
       return;
     }
 
@@ -252,13 +252,13 @@ export default function EditUser() {
         });
         setResetPasswordError(null);
         closeResetPasswordModal();
-        setSuccessMessage("Password berhasil direset");
+        setSuccessMessage("Password successfully reset");
         openSuccessModal();
       } else {
-        setResetPasswordError(response.message || "Gagal reset password");
+        setResetPasswordError(response.message || "Failed to reset password");
       }
     } catch (err: any) {
-      setResetPasswordError(err.message || "Terjadi kesalahan saat reset password");
+      setResetPasswordError(err.message || "An error occurred while resetting password");
       console.error("Reset password error:", err);
     } finally {
       setIsResettingPassword(false);
@@ -280,14 +280,14 @@ export default function EditUser() {
       const response = await userAPI.deleteUser(id);
 
       if (response.success) {
-        // Redirect ke users list setelah berhasil delete
+        // Redirect to users list after successful delete
         navigate("/users");
       } else {
-        setError(response.message || "Gagal menghapus user");
+        setError(response.message || "Failed to delete user");
         setIsLoading(false);
       }
     } catch (err: any) {
-      setError("Terjadi kesalahan saat menghapus user");
+      setError("An error occurred while deleting user");
       console.error("Delete user error:", err);
       setIsLoading(false);
     }
@@ -301,17 +301,17 @@ export default function EditUser() {
 
     // Client-side validation
     if (formData.firstname.trim().length < 2) {
-      setError("Nama depan minimal 2 karakter");
+      setError("First name must be at least 2 characters");
       return;
     }
 
     if (formData.lastname.trim().length < 2) {
-      setError("Nama belakang minimal 2 karakter");
+      setError("Last name must be at least 2 characters");
       return;
     }
 
     if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      setError("Format email tidak valid");
+      setError("Invalid email format");
       return;
     }
 
@@ -356,7 +356,7 @@ export default function EditUser() {
       });
 
       if (!updateResponse.success) {
-        const errorMessage = updateResponse.message || "Gagal mengupdate user";
+        const errorMessage = updateResponse.message || "Failed to update user";
         setError(errorMessage);
         showError(errorMessage);
         setIsLoading(false);
@@ -367,7 +367,7 @@ export default function EditUser() {
       const rolesResponse = await userAPI.updateUserRoles(id, selectedRoleIds.map(String));
 
       if (!rolesResponse.success) {
-        const errorMessage = rolesResponse.message || "Gagal mengupdate roles";
+        const errorMessage = rolesResponse.message || "Failed to update roles";
         setError(errorMessage);
         showError(errorMessage);
         setIsLoading(false);
@@ -375,10 +375,10 @@ export default function EditUser() {
       }
 
       // Success - redirect back to users list
-      success("User berhasil diupdate!");
+      success("User updated successfully!");
       navigate("/users");
     } catch (err: any) {
-      const errorMessage = "Terjadi kesalahan. Silakan coba lagi.";
+      const errorMessage = "An error occurred. Please try again.";
       setError(errorMessage);
       showError(errorMessage);
       console.error("Update user error:", err);
@@ -398,7 +398,7 @@ export default function EditUser() {
           pageTitle="Edit User"
         />
         <div className="flex items-center justify-center py-12">
-          <div className="text-gray-500 dark:text-gray-400">Memuat data user...</div>
+          <div className="text-gray-500 dark:text-gray-400">Loading user data...</div>
         </div>
       </>
     );
@@ -416,7 +416,7 @@ export default function EditUser() {
         />
         <div className="flex items-center justify-center py-12">
           <div className="text-red-500 dark:text-red-400">
-            {error || "User tidak ditemukan"}
+            {error || "User not found"}
           </div>
         </div>
       </>
@@ -759,7 +759,7 @@ export default function EditUser() {
         title="Impersonate User"
         message={
           <>
-            Apakah Anda yakin ingin masuk sebagai user <strong className="text-gray-800 dark:text-white">{userFullName}</strong>? Anda akan melihat aplikasi dari perspektif user tersebut.
+            Are you sure you want to sign in as user <strong className="text-gray-800 dark:text-white">{userFullName}</strong>? You will see the application from this user's perspective.
           </>
         }
         confirmText="Impersonate"
@@ -774,10 +774,10 @@ export default function EditUser() {
         isOpen={isDeleteModalOpen}
         onClose={closeDeleteModal}
         onConfirm={handleDeleteUser}
-        title="Hapus User"
+        title="Delete User"
         message={
           <>
-            Apakah Anda yakin ingin menghapus user <strong className="text-gray-800 dark:text-white">{userFullName}</strong>?
+            Are you sure you want to delete user <strong className="text-gray-800 dark:text-white">{userFullName}</strong>?
           </>
         }
         confirmText="Delete"
@@ -786,7 +786,7 @@ export default function EditUser() {
         icon={<TrashBinIcon className="w-6 h-6" />}
         isLoading={isLoading}
         showWarning={true}
-        warningMessage="Tindakan ini tidak dapat dibatalkan dan akan menghapus user secara permanen."
+        warningMessage="This action cannot be undone and will delete the user permanently."
       />
 
       {/* Success Modal */}

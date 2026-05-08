@@ -38,7 +38,7 @@ export default function Forbidden() {
         </div>
 
         <p className="mt-10 text-base text-gray-700 dark:text-gray-400 sm:text-lg">
-          Akses ditolak. Role ini tidak dapat mengakses admin panel.
+          Access denied. This role cannot access the admin panel.
         </p>
       </div>
     </div>

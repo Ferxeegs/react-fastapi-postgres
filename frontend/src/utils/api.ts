@@ -161,7 +161,7 @@ async function apiRequest<T>(
       }
       return {
         success: false,
-        message: 'Session telah berakhir. Silakan login kembali.',
+        message: 'Session has ended. Please login again.',
         error: 'Session expired',
       };
     }
@@ -171,7 +171,7 @@ async function apiRequest<T>(
       const errorMessage =
         (typeof data.message === 'string' && data.message) ||
         (typeof data.error === 'string' && data.error) ||
-        'Terjadi kesalahan';
+        'An error occurred';
       return {
         success: false,
         message: errorMessage,
@@ -198,7 +198,7 @@ async function apiRequest<T>(
   } catch (error: any) {
     return {
       success: false,
-      message: 'Gagal terhubung ke server',
+      message: 'Failed to connect to server',
       error: error.message || 'Network error',
     };
   }
@@ -356,7 +356,7 @@ export const mediaAPI = {
           message:
             (typeof data.message === 'string' && data.message) ||
             (typeof data.error === 'string' && data.error) ||
-            'Gagal mengupload file',
+            'Failed to upload file',
           error:
             (typeof data.error === 'string' && data.error) ||
             (typeof data.message === 'string' && data.message) ||
@@ -366,14 +366,14 @@ export const mediaAPI = {
 
       return {
         success: true,
-        message: (typeof data.message === 'string' && data.message) || 'File berhasil diupload',
+        message: (typeof data.message === 'string' && data.message) || 'File uploaded successfully',
         data: data.data as MediaUploadRecord,
       };
     } catch (error: any) {
       console.error('Upload media error:', error);
       return {
         success: false,
-        message: error.message || 'Terjadi kesalahan saat mengupload file',
+        message: error.message || 'An error occurred while uploading file',
         error: error.message || 'Network error',
       };
     }

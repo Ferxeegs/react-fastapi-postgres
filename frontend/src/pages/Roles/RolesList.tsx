@@ -64,11 +64,11 @@ export default function RolesList() {
         setRoles(response.data.roles);
         setPagination(response.data.pagination);
       } else {
-        setError(response.message || "Gagal mengambil data roles");
+        setError(response.message || "Failed to fetch roles data");
         console.error("Roles response:", response);
       }
     } catch (err: any) {
-      setError("Terjadi kesalahan. Silakan coba lagi.");
+      setError("An error occurred. Please try again.");
       console.error("Fetch roles error:", err);
     } finally {
       setIsLoading(false);
@@ -111,7 +111,7 @@ export default function RolesList() {
         <div className="relative flex-1 max-w-md">
           <input
             type="text"
-            placeholder="Cari role (nama, guard name)..."
+            placeholder="Search roles (name, guard name)..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full h-11 sm:h-11 rounded-lg border border-gray-200 bg-transparent py-2.5 pl-11 sm:pl-12 pr-4 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:bg-white/[0.03] dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
@@ -167,7 +167,7 @@ export default function RolesList() {
         ) : roles.length === 0 ? (
           <div className="flex items-center justify-center py-12">
             <div className="text-gray-500 dark:text-gray-400 text-sm text-center">
-              {search ? "Tidak ada role yang ditemukan" : "Belum ada role"}
+              {search ? "No roles found" : "No roles yet"}
             </div>
           </div>
         ) : (
@@ -235,7 +235,7 @@ export default function RolesList() {
           ) : roles.length === 0 ? (
             <div className="flex items-center justify-center py-12">
               <div className="text-gray-500 dark:text-gray-400">
-                {search ? "Tidak ada role yang ditemukan" : "Belum ada role"}
+                {search ? "No roles found" : "No roles yet"}
               </div>
             </div>
           ) : (
@@ -349,7 +349,7 @@ export default function RolesList() {
       {pagination.totalPages > 1 && (
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 text-center sm:text-left">
-            Menampilkan {((page - 1) * pagination.limit) + 1} - {Math.min(page * pagination.limit, pagination.total)} dari {pagination.total}
+            Showing {((page - 1) * pagination.limit) + 1} - {Math.min(page * pagination.limit, pagination.total)} of {pagination.total}
           </div>
           <div className="flex gap-2 justify-center sm:justify-end">
             <button

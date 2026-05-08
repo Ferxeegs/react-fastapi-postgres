@@ -72,10 +72,10 @@ export default function UserMetaCard({ user, onUpdate }: UserMetaCardProps) {
         if (onUpdate) onUpdate();
         closeModal();
       } else {
-        setError(response.message || "Gagal mengupdate profile");
+        setError(response.message || "Failed to update profile");
       }
     } catch (err: any) {
-      setError(err.message || "Terjadi kesalahan saat mengupdate profile");
+      setError(err.message || "An error occurred while updating profile");
       console.error("Update profile error:", err);
     } finally {
       setIsLoading(false);

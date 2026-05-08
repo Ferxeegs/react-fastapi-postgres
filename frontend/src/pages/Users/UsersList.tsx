@@ -154,11 +154,11 @@ export default function UsersList() {
         // Fetch profile pictures for all users
         fetchUserProfilePictures(filteredUsers);
       } else {
-        setError(response.message || "Gagal mengambil data users");
+        setError(response.message || "Failed to fetch users data");
         console.error("Users response:", response);
       }
     } catch (err: any) {
-      setError("Terjadi kesalahan. Silakan coba lagi.");
+      setError("An error occurred. Please try again.");
       console.error("Fetch users error:", err);
     } finally {
       setIsLoading(false);
@@ -202,7 +202,7 @@ export default function UsersList() {
       // Redirect to dashboard or home after impersonating
       navigate("/");
     } catch (err: any) {
-      setError(err.message || "Terjadi kesalahan saat melakukan impersonate");
+      setError(err.message || "An error occurred while impersonating");
       console.error("Impersonate user error:", err);
     } finally {
       setImpersonatingUserId(null);
@@ -228,15 +228,15 @@ export default function UsersList() {
 
       if (response.success) {
         // Refresh list
-        success("User berhasil dihapus permanen!");
+        success("User successfully permanently deleted!");
         fetchUsers();
       } else {
-        const errorMessage = response.message || "Gagal menghapus user permanen";
+        const errorMessage = response.message || "Failed to permanently delete user";
         setError(errorMessage);
         showError(errorMessage);
       }
     } catch (err: any) {
-      const errorMessage = "Terjadi kesalahan saat menghapus user permanen";
+      const errorMessage = "An error occurred while permanently deleting user";
       setError(errorMessage);
       showError(errorMessage);
       console.error("Force delete user error:", err);
@@ -266,7 +266,7 @@ export default function UsersList() {
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "-";
     const date = new Date(dateString);
-    return date.toLocaleDateString("id-ID", {
+    return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -280,7 +280,7 @@ export default function UsersList() {
         <div className="relative flex-1 max-w-md">
           <input
             type="text"
-            placeholder="Cari pengguna..."
+            placeholder="Search users..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full h-10 sm:h-11 rounded-lg border border-gray-200 bg-transparent py-2 pl-10 sm:pl-12 pr-4 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-800 dark:bg-gray-900 dark:bg-white/[0.03] dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
@@ -367,8 +367,8 @@ export default function UsersList() {
           <div className="flex items-center justify-center py-8">
             <div className="text-gray-500 dark:text-gray-400 text-sm text-center">
               {search
-                ? `Tidak ada ${showDeleted ? "pengguna yang dihapus " : ""}yang ditemukan`
-                : `Belum ada ${showDeleted ? "pengguna yang dihapus " : ""}pengguna`}
+                ? `No ${showDeleted ? "deleted users " : ""}found`
+                : `No ${showDeleted ? "deleted users " : ""}yet`}
             </div>
           </div>
         ) : (
@@ -439,7 +439,7 @@ export default function UsersList() {
                 </div>
                 {user.created_at && (
                   <div className="flex items-start gap-2">
-                    <span className="text-gray-500 dark:text-gray-400 min-w-[70px]">Daftar:</span>
+                    <span className="text-gray-500 dark:text-gray-400 min-w-[70px]">Joined:</span>
                     <span className="text-gray-800 dark:text-white font-medium flex-1">{formatDate(user.created_at)}</span>
                   </div>
                 )}
@@ -517,8 +517,8 @@ export default function UsersList() {
             <div className="flex items-center justify-center py-12">
               <div className="text-gray-500 dark:text-gray-400">
                 {search
-                  ? `Tidak ada ${showDeleted ? "deleted " : ""}user yang ditemukan`
-                  : `Belum ada ${showDeleted ? "deleted " : ""}user`}
+                  ? `No ${showDeleted ? "deleted " : ""}users found`
+                  : `No ${showDeleted ? "deleted " : ""}users yet`}
               </div>
             </div>
           ) : (
@@ -539,7 +539,7 @@ export default function UsersList() {
                       Role
                     </TableCell>
                     <TableCell isHeader className="px-5 py-4 text-center text-theme-sm font-semibold text-gray-500 dark:text-gray-400 w-[160px]">
-                      Tanggal Daftar
+                      Join Date
                     </TableCell>
                     <TableCell isHeader className="px-5 py-4 text-center text-theme-sm font-semibold text-gray-500 dark:text-gray-400">
                       Actions
@@ -640,7 +640,7 @@ export default function UsersList() {
                                   type="button"
                                   onClick={() => navigate(`/users/${user.id}`)}
                                   className="p-1.5 text-gray-500 hover:text-brand-500 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
-                                  title="Lihat Detail"
+                                  title="View Details"
                                 >
                                   <EyeIcon className="w-4 h-4" />
                                 </button>
@@ -674,7 +674,7 @@ export default function UsersList() {
                                 onClick={() => handleForceDeleteClick(user.id, user.fullname || `${user.firstname} ${user.lastname}`.trim() || user.username)}
                                 disabled={deletingUserId === user.id}
                                 className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
-                                title="Hapus Permanen"
+                                title="Permanently Delete"
                               >
                                 <TrashBinIcon className="w-3.5 h-3.5" />
                                 {deletingUserId === user.id ? "Deleting..." : "Force Delete"}
@@ -697,7 +697,7 @@ export default function UsersList() {
       {pagination.totalPages > 1 && (
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 text-center sm:text-left">
-            Menampilkan {((page - 1) * pagination.limit) + 1} - {Math.min(page * pagination.limit, pagination.total)} dari {pagination.total}
+            Showing {((page - 1) * pagination.limit) + 1} - {Math.min(page * pagination.limit, pagination.total)} of {pagination.total}
           </div>
           <div className="flex gap-2 justify-center sm:justify-end">
             <button
@@ -726,7 +726,7 @@ export default function UsersList() {
         title="Impersonate User"
         message={
           <>
-            Apakah Anda yakin ingin masuk sebagai user <strong className="text-gray-800 dark:text-white">{selectedUserForImpersonate?.name}</strong>? Anda akan melihat aplikasi dari perspektif user tersebut.
+            Are you sure you want to sign in as user <strong className="text-gray-800 dark:text-white">{selectedUserForImpersonate?.name}</strong>? You will see the application from this user's perspective.
           </>
         }
         confirmText="Impersonate"
@@ -741,10 +741,10 @@ export default function UsersList() {
         isOpen={isDeleteModalOpen}
         onClose={closeDeleteModal}
         onConfirm={handleForceDelete}
-        title="Hapus Permanen User"
+        title="Permanently Delete User"
         message={
           <>
-            Apakah Anda yakin ingin menghapus permanen user <strong className="text-gray-800 dark:text-white">{selectedUserForDelete?.name}</strong>?
+            Are you sure you want to permanently delete user <strong className="text-gray-800 dark:text-white">{selectedUserForDelete?.name}</strong>?
           </>
         }
         confirmText="Delete Permanently"
@@ -753,7 +753,7 @@ export default function UsersList() {
         icon={<TrashBinIcon className="w-6 h-6" />}
         isLoading={deletingUserId === selectedUserForDelete?.id}
         showWarning={true}
-        warningMessage="Tindakan ini TIDAK DAPAT DIBATALKAN dan akan menghapus semua data terkait user ini secara permanen."
+        warningMessage="This action CANNOT BE UNDONE and will permanently delete all data related to this user."
       />
     </div>
   );

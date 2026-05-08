@@ -107,13 +107,13 @@ export default function UserSidebar({
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      setUploadError('Hanya file gambar yang diizinkan');
+      setUploadError('Only image files are allowed');
       return;
     }
 
     // Validate file size (5MB)
     if (file.size > 5 * 1024 * 1024) {
-      setUploadError('Ukuran file maksimal 5MB');
+      setUploadError('Maximum file size is 5MB');
       return;
     }
 
@@ -166,7 +166,7 @@ export default function UserSidebar({
           fetchProfilePicture();
         }, 300);
       } else {
-        setUploadError(uploadResponse.message || 'Gagal mengupload foto profil');
+        setUploadError(uploadResponse.message || 'Failed to upload profile photo');
         // Revert to previous image or clear if no previous
         if (currentProfilePictureId) {
           // Try to fetch previous image
@@ -192,7 +192,7 @@ export default function UserSidebar({
         }
       }
     } catch (err: any) {
-      setUploadError('Terjadi kesalahan saat mengupload foto profil');
+      setUploadError('An error occurred while uploading profile photo');
       console.error('Upload error:', err);
       setImagePreview(profileImage || null); // Revert to previous image
     } finally {
@@ -218,10 +218,10 @@ export default function UserSidebar({
         onProfileImageChange?.(null);
         onProfilePictureUpdated?.();
       } else {
-        setUploadError(deleteResponse.message || 'Gagal menghapus foto profil');
+        setUploadError(deleteResponse.message || 'Failed to delete profile photo');
       }
     } catch (err: any) {
-      setUploadError('Terjadi kesalahan saat menghapus foto profil');
+      setUploadError('An error occurred while deleting profile photo');
       console.error('Delete error:', err);
     } finally {
       setIsUploading(false);
@@ -248,12 +248,12 @@ export default function UserSidebar({
     try {
       const response = await userAPI.sendVerificationEmail(userId);
       if (response.success) {
-        alert("Kode verifikasi berhasil dikirim ke email");
+        alert("Verification code successfully sent to email");
       } else {
-        alert(response.message || "Gagal mengirim kode verifikasi");
+        alert(response.message || "Failed to send verification code");
       }
     } catch (err) {
-      alert("Terjadi kesalahan saat mengirim kode verifikasi");
+      alert("An error occurred while sending verification code");
       console.error(err);
     } finally {
       setIsSendingVerification(false);
@@ -267,10 +267,10 @@ export default function UserSidebar({
       if (response.success) {
         onEmailVerified();
       } else {
-        alert(response.message || "Gagal memverifikasi email");
+        alert(response.message || "Failed to verify email");
       }
     } catch (err) {
-      alert("Terjadi kesalahan saat memverifikasi email");
+      alert("An error occurred while verifying email");
       console.error(err);
     } finally {
       setIsVerifying(false);
@@ -351,9 +351,9 @@ export default function UserSidebar({
                 type="button"
                 onClick={handleRemoveImage}
                 className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
-                title="Hapus foto"
+                title="Delete photo"
               >
-                Hapus
+                Delete
               </button>
             )}
           </div>
@@ -390,9 +390,9 @@ export default function UserSidebar({
             </div>
             {emailVerifiedAt ? (
               <div className="text-sm font-medium text-green-500 dark:text-gray-300">
-                {new Date(emailVerifiedAt).toLocaleDateString("id-ID", {
+                {new Date(emailVerifiedAt).toLocaleDateString("en-US", {
                   year: "numeric",
-                  month: "long",
+                  month: "short",
                   day: "numeric",
                   hour: "2-digit",
                   minute: "2-digit",

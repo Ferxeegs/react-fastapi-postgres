@@ -65,9 +65,9 @@ export default function Home() {
 
   const greeting = (() => {
     const h = new Date().getHours();
-    if (h < 12) return "Selamat Pagi";
-    if (h < 17) return "Selamat Siang";
-    return "Selamat Malam";
+    if (h < 12) return "Good Morning";
+    if (h < 17) return "Good Afternoon";
+    return "Good Evening";
   })();
 
   const firstName = user?.firstname || user?.username || "Admin";
@@ -76,7 +76,7 @@ export default function Home() {
     <>
       <PageMeta
         title="Dashboard - Boilerplate"
-        description="Dashboard utama sistem"
+        description="Main dashboard of the system"
       />
 
       <div className="space-y-6 p-4 text-gray-900 dark:text-white sm:p-6">
@@ -89,10 +89,10 @@ export default function Home() {
               {greeting}, {firstName} 👋
             </p>
             <h1 className="mt-1 text-2xl font-bold sm:text-3xl">
-              Dashboard Boilerplate
+              Boilerplate Dashboard
             </h1>
             <p className="mt-2 max-w-lg text-sm text-blue-100/70">
-              Selamat datang di sistem boilerplate React + FastAPI.
+              Welcome to the React + FastAPI boilerplate system.
             </p>
           </div>
         </div>
@@ -101,9 +101,9 @@ export default function Home() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <KpiCard
             icon={<UserIcon className="size-6" />}
-            label="Total Pengguna"
+            label="Total Users"
             value={loading ? "..." : userCount}
-            subtitle="Pengguna terdaftar di sistem"
+            subtitle="Registered users in the system"
             accentClass="bg-violet-500/10 text-violet-500"
           />
         </div>
