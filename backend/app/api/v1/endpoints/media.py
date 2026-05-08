@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_db, get_current_active_user
 from app.models.auth import User
 from app.models.common import Media
+from pydantic import BaseModel
 from app.schemas.common import WebResponse, MediaRead
 from app.core.config import settings
 from app.core.exceptions import BadRequestException, NotFoundException
@@ -429,6 +430,48 @@ async def upload_media(
             message="Media uploaded successfully",
             data=MediaRead.model_validate(media)
         )
+
+
+class DeleteByUrlRequest(BaseModel):
+    url: str
+
+
+@router.post("/delete-by-url", response_model=WebResponse[dict])
+def delete_file_by_url(
+    request: DeleteByUrlRequest,
+    db: Session = Depends(get_db),
+    # current_user: User = Depends(get_current_active_user)
+):
+    """
+    Delete a file and its associated media record by URL.
+    """
+    url = request.url
+    
+    # Check if media record exists
+    media = db.query(Media).filter(Media.url == url).first()
+    
+    # Delete file from filesystem
+    file_path = get_file_path_from_url(url)
+    file_deleted = False
+    if file_path.exists():
+        try:
+            file_path.unlink()
+            logger.info(f"Deleted file by URL: {file_path}")
+            file_deleted = True
+        except Exception as e:
+            logger.error(f"Error deleting file by URL {file_path}: {e}")
+            
+    # Delete media record if it exists
+    if media:
+        db.delete(media)
+        db.commit()
+        logger.info(f"Deleted media record by URL: ID={media.id}")
+        
+    return WebResponse(
+        status="success",
+        message="File deleted successfully",
+        data={"deleted": file_deleted or bool(media)}
+    )
 
 
 @router.get("/{media_id}", response_model=WebResponse[MediaRead])

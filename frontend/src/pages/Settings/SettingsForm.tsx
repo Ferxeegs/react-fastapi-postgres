@@ -155,6 +155,11 @@ export default function SettingsForm() {
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        showErrorToast("Ukuran file logo maksimal 2MB");
+        e.target.value = "";
+        return;
+      }
       setLogoFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -167,6 +172,11 @@ export default function SettingsForm() {
   const handleLogoDarkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        showErrorToast("Ukuran file logo dark maksimal 2MB");
+        e.target.value = "";
+        return;
+      }
       setLogoDarkFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -177,68 +187,81 @@ export default function SettingsForm() {
   };
 
   const handleDeleteLogo = async () => {
-    if (!settings.appearance.site_logo) return;
-
-    try {
-      // Hapus file dari filesystem
-      await mediaAPI.deleteFileByUrl(settings.appearance.site_logo);
-      
-      // Update setting menjadi empty string
-      await settingAPI.update("appearance", "site_logo", { payload: "" });
-      
-      // Clear preview dan state
-      setLogoPreview(null);
-      setLogoFile(null);
-      setSettings((prev) => ({
-        ...prev,
-        appearance: {
-          ...prev.appearance,
-          site_logo: "",
-        },
-      }));
-      
-      showSuccessToast("Site logo berhasil dihapus!");
-    } catch (err: any) {
-      const message = "Gagal menghapus logo. Silakan coba lagi.";
-      setError(message);
-      console.error("Delete logo error:", err);
-      showErrorToast(message);
+    if (settings.appearance.site_logo) {
+      try {
+        // Hapus file dari filesystem
+        await mediaAPI.deleteFileByUrl(settings.appearance.site_logo);
+        
+        // Update setting menjadi empty string
+        await settingAPI.update("appearance", "site_logo", { payload: "" });
+        
+        setSettings((prev) => ({
+          ...prev,
+          appearance: {
+            ...prev.appearance,
+            site_logo: "",
+          },
+        }));
+        
+        showSuccessToast("Site logo berhasil dihapus!");
+      } catch (err: any) {
+        const message = "Gagal menghapus logo. Silakan coba lagi.";
+        setError(message);
+        console.error("Delete logo error:", err);
+        showErrorToast(message);
+        return;
+      }
     }
+
+    // Clear preview dan state
+    setLogoPreview(null);
+    setLogoFile(null);
+    const input = document.getElementById("site_logo_input") as HTMLInputElement;
+    if (input) input.value = "";
   };
 
   const handleDeleteLogoDark = async () => {
-    if (!settings.appearance.site_logo_dark) return;
-
-    try {
-      // Hapus file dari filesystem
-      await mediaAPI.deleteFileByUrl(settings.appearance.site_logo_dark);
-      
-      // Update setting menjadi empty string
-      await settingAPI.update("appearance", "site_logo_dark", { payload: "" });
-      
-      // Clear preview dan state
-      setLogoDarkPreview(null);
-      setLogoDarkFile(null);
-      setSettings((prev) => ({
-        ...prev,
-        appearance: {
-          ...prev.appearance,
-          site_logo_dark: "",
-        },
-      }));
-      
-      showSuccessToast("Site logo dark berhasil dihapus!");
-    } catch (err: any) {
-      const message = "Gagal menghapus logo dark. Silakan coba lagi.";
-      setError(message);
-      console.error("Delete logo dark error:", err);
-      showErrorToast(message);
+    if (settings.appearance.site_logo_dark) {
+      try {
+        // Hapus file dari filesystem
+        await mediaAPI.deleteFileByUrl(settings.appearance.site_logo_dark);
+        
+        // Update setting menjadi empty string
+        await settingAPI.update("appearance", "site_logo_dark", { payload: "" });
+        
+        setSettings((prev) => ({
+          ...prev,
+          appearance: {
+            ...prev.appearance,
+            site_logo_dark: "",
+          },
+        }));
+        
+        showSuccessToast("Site logo dark berhasil dihapus!");
+      } catch (err: any) {
+        const message = "Gagal menghapus logo dark. Silakan coba lagi.";
+        setError(message);
+        console.error("Delete logo dark error:", err);
+        showErrorToast(message);
+        return;
+      }
     }
+
+    // Clear preview dan state
+    setLogoDarkPreview(null);
+    setLogoDarkFile(null);
+    const input = document.getElementById("site_logo_dark_input") as HTMLInputElement;
+    if (input) input.value = "";
   };
 
   const handleBrandLogoSquareChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        showErrorToast("Ukuran file brand logo square maksimal 2MB");
+        e.target.value = "";
+        return;
+      }
       setBrandLogoSquareFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -251,6 +274,11 @@ export default function SettingsForm() {
   const handleFaviconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        showErrorToast("Ukuran file favicon maksimal 2MB");
+        e.target.value = "";
+        return;
+      }
       setFaviconFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -261,32 +289,42 @@ export default function SettingsForm() {
   };
 
   const handleDeleteBrandLogoSquare = async () => {
-    if (!settings.appearance.brand_logo_square) return;
-
-    try {
-      await mediaAPI.deleteFileByUrl(settings.appearance.brand_logo_square);
-      await settingAPI.update("appearance", "brand_logo_square", { payload: "" });
-      setBrandLogoSquarePreview(null);
-      setBrandLogoSquareFile(null);
-      setSettings((prev) => ({
-        ...prev,
-        appearance: {
-          ...prev.appearance,
-          brand_logo_square: "",
-        },
-      }));
-      showSuccessToast("Brand logo square berhasil dihapus!");
-    } catch (err: any) {
-      const message = "Gagal menghapus brand logo square. Silakan coba lagi.";
-      setError(message);
-      console.error("Delete brand logo square error:", err);
-      showErrorToast(message);
+    if (settings.appearance.brand_logo_square) {
+      try {
+        await mediaAPI.deleteFileByUrl(settings.appearance.brand_logo_square);
+        await settingAPI.update("appearance", "brand_logo_square", { payload: "" });
+        
+        setSettings((prev) => ({
+          ...prev,
+          appearance: {
+            ...prev.appearance,
+            brand_logo_square: "",
+          },
+        }));
+        showSuccessToast("Brand logo square berhasil dihapus!");
+      } catch (err: any) {
+        const message = "Gagal menghapus brand logo square. Silakan coba lagi.";
+        setError(message);
+        console.error("Delete brand logo square error:", err);
+        showErrorToast(message);
+        return;
+      }
     }
+    
+    setBrandLogoSquarePreview(null);
+    setBrandLogoSquareFile(null);
+    const input = document.getElementById("brand_logo_square_input") as HTMLInputElement;
+    if (input) input.value = "";
   };
 
   const handleBrandLogoSquareDarkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        showErrorToast("Ukuran file brand logo square dark maksimal 2MB");
+        e.target.value = "";
+        return;
+      }
       setBrandLogoSquareDarkFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -297,51 +335,61 @@ export default function SettingsForm() {
   };
 
   const handleDeleteBrandLogoSquareDark = async () => {
-    if (!settings.appearance.brand_logo_square_dark) return;
-
-    try {
-      await mediaAPI.deleteFileByUrl(settings.appearance.brand_logo_square_dark);
-      await settingAPI.update("appearance", "brand_logo_square_dark", { payload: "" });
-      setBrandLogoSquareDarkPreview(null);
-      setBrandLogoSquareDarkFile(null);
-      setSettings((prev) => ({
-        ...prev,
-        appearance: {
-          ...prev.appearance,
-          brand_logo_square_dark: "",
-        },
-      }));
-      showSuccessToast("Brand logo square dark berhasil dihapus!");
-    } catch (err: any) {
-      const message = "Gagal menghapus brand logo square dark. Silakan coba lagi.";
-      setError(message);
-      console.error("Delete brand logo square dark error:", err);
-      showErrorToast(message);
+    if (settings.appearance.brand_logo_square_dark) {
+      try {
+        await mediaAPI.deleteFileByUrl(settings.appearance.brand_logo_square_dark);
+        await settingAPI.update("appearance", "brand_logo_square_dark", { payload: "" });
+        
+        setSettings((prev) => ({
+          ...prev,
+          appearance: {
+            ...prev.appearance,
+            brand_logo_square_dark: "",
+          },
+        }));
+        showSuccessToast("Brand logo square dark berhasil dihapus!");
+      } catch (err: any) {
+        const message = "Gagal menghapus brand logo square dark. Silakan coba lagi.";
+        setError(message);
+        console.error("Delete brand logo square dark error:", err);
+        showErrorToast(message);
+        return;
+      }
     }
+    
+    setBrandLogoSquareDarkPreview(null);
+    setBrandLogoSquareDarkFile(null);
+    const input = document.getElementById("brand_logo_square_dark_input") as HTMLInputElement;
+    if (input) input.value = "";
   };
 
   const handleDeleteFavicon = async () => {
-    if (!settings.appearance.site_favicon) return;
-
-    try {
-      await mediaAPI.deleteFileByUrl(settings.appearance.site_favicon);
-      await settingAPI.update("appearance", "site_favicon", { payload: "" });
-      setFaviconPreview(null);
-      setFaviconFile(null);
-      setSettings((prev) => ({
-        ...prev,
-        appearance: {
-          ...prev.appearance,
-          site_favicon: "",
-        },
-      }));
-      showSuccessToast("Site favicon berhasil dihapus!");
-    } catch (err: any) {
-      const message = "Gagal menghapus favicon. Silakan coba lagi.";
-      setError(message);
-      console.error("Delete favicon error:", err);
-      showErrorToast(message);
+    if (settings.appearance.site_favicon) {
+      try {
+        await mediaAPI.deleteFileByUrl(settings.appearance.site_favicon);
+        await settingAPI.update("appearance", "site_favicon", { payload: "" });
+        
+        setSettings((prev) => ({
+          ...prev,
+          appearance: {
+            ...prev.appearance,
+            site_favicon: "",
+          },
+        }));
+        showSuccessToast("Site favicon berhasil dihapus!");
+      } catch (err: any) {
+        const message = "Gagal menghapus favicon. Silakan coba lagi.";
+        setError(message);
+        console.error("Delete favicon error:", err);
+        showErrorToast(message);
+        return;
+      }
     }
+    
+    setFaviconPreview(null);
+    setFaviconFile(null);
+    const input = document.getElementById("site_favicon_input") as HTMLInputElement;
+    if (input) input.value = "";
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -709,6 +757,7 @@ export default function SettingsForm() {
                   </div>
                 )}
                 <input
+                  id="site_logo_input"
                   type="file"
                   accept="image/*"
                   onChange={handleLogoChange}
@@ -743,6 +792,7 @@ export default function SettingsForm() {
                   </div>
                 )}
                 <input
+                  id="site_logo_dark_input"
                   type="file"
                   accept="image/*"
                   onChange={handleLogoDarkChange}
@@ -777,6 +827,7 @@ export default function SettingsForm() {
                   </div>
                 )}
                 <input
+                  id="brand_logo_square_input"
                   type="file"
                   accept="image/*"
                   onChange={handleBrandLogoSquareChange}
@@ -811,6 +862,7 @@ export default function SettingsForm() {
                   </div>
                 )}
                 <input
+                  id="brand_logo_square_dark_input"
                   type="file"
                   accept="image/*"
                   onChange={handleBrandLogoSquareDarkChange}
